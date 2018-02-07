@@ -25,8 +25,8 @@ class EpisodeGrid extends Component {
             console.log(this.props.podcast);
         }
 
-        this.props.podcast.episodes.map((a) => {
-            thumbnails.push(<Thumbnail title={a.title}/>);
+        this.props.podcast.episodes && this.props.podcast.episodes.map((a) => {
+            thumbnails.push(<Thumbnail imageSrc={a.image} title={a.title}/>);
         });
 
         return(

@@ -11,7 +11,7 @@ export default class Thumbnail extends Component {
             <div className="thumbnail-container">
                 <img src={this.props.imageSrc}/>
                 <div>
-                    <div className="thumbnail-span-heading">Heading</div>
+                    <div className="thumbnail-span-heading">{this.props.title}</div>
                     <div className="thumbnail-span-subheading">Subheading</div>
                 </div>
             </div>
