@@ -1,3 +1,7 @@
+* {
+  font-family: "Lato" ,Helvetica, Arial, sans-serif;
+}
+
 .App {
   text-align: center;
 }
@@ -22,7 +26,6 @@
   font-size: large;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+a {
+  text-decoration: none;
 }
