@@ -1,26 +1,35 @@
 {
   "name": "madcucks-media",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "node-podcast-parser": "^2.0.0",
-    "node-sass-chokidar": "^0.0.3",
-    "plyr": "^3.0.0-beta.12",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "react-redux": "^5.0.6",
-    "react-router-dom": "^4.2.2",
-    "react-scripts": "1.1.0",
-    "redux": "^3.7.2",
-    "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.2.0"
-  },
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "build-css": "node-sass-chokidar src/ -o src/",
-    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "client": "cd client && yarn start",
+    "server": "nodemon server.js",
+    "dev": "concurrently --kill-others-on-fail \"redis-server --port 6379\" \"yarn server\" \"yarn client\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArmaanButt/madcucks-media.git"
+  },
+  "author": "Armaan Butt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ArmaanButt/madcucks-media/issues"
+  },
+  "homepage": "https://github.com/ArmaanButt/madcucks-media#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "node-fetch": "^2.0.0",
+    "node-podcast-parser": "https://github.com/ArmaanButt/node-podcast-parser.git",
+    "nodemon": "^1.14.12",
+    "redis": "^2.8.0",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2"
+  },
+  "devDependencies": {
+    "concurrently": "^3.5.1"
   }
 }
