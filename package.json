@@ -6,7 +6,7 @@
   "scripts": {
     "client": "cd client && yarn start",
     "server": "nodemon server.js",
-    "dev": "concurrently --kill-others-on-fail \"redis-server --port 6379\" \"yarn server\" \"yarn client\"",
+    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,8 +20,11 @@
   },
   "homepage": "https://github.com/ArmaanButt/madcucks-media#readme",
   "dependencies": {
+    "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
+    "bull": "^3.3.9",
     "express": "^4.16.2",
+    "log4js": "^2.5.2",
     "node-fetch": "^2.0.0",
     "node-podcast-parser": "https://github.com/ArmaanButt/node-podcast-parser.git",
     "nodemon": "^1.14.12",
@@ -30,6 +33,7 @@
     "request-promise": "^4.2.2"
   },
   "devDependencies": {
+    "@types/bull": "^3.3.4",
     "concurrently": "^3.5.1"
   }
 }
