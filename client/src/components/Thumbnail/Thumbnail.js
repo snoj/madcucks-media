@@ -9,13 +9,17 @@ export default class Thumbnail extends Component {
 
     render() {
         return(
-            <Link className="thumbnail-container" to={this.props.episodeURL}>
-                <img src={this.props.imageSrc}/>
-                <div>
+            <div className="thumbnail-container">
+                <Link to={this.props.episodeURL}>
+                    <img src={this.props.imageSrc}/>
+                </Link>
+                <div className="thumbnail-info-container">
                     <div className="thumbnail-span-heading">{this.props.title}</div>
-                    <div className="thumbnail-span-subheading"></div>
+                    <div className="thumbnail-span-subheading">{this.props.duration}</div>
                 </div>
-            </Link>
+            </div>
+            
+            
         );
     }
 }

@@ -11,6 +11,7 @@
     font-weight: 400;
     flex-grow: 2;
     padding: 1em;
+    flex: 0 0 60%;
 
     h1 {
         font-size: 1.4em;
@@ -24,7 +25,13 @@
 }
 
 .navbar-button-container {
-    flex-grow: 1;
+    flex: 0 0 35%;
+    background: $madcucks-black;
+
+    @media screen and (max-width: $break-medium) {
+        flex: 0 0 100%;
+        justify-content: center;
+    }
 }
 
 .navbar-button-list {
@@ -41,6 +48,11 @@
         flex: 1;
         text-align: center;
         transition: all 0.25s linear;
+
+        @media screen and (max-width: $break-large) {
+            font-size: 0.8em;
+        }
+       
     }
 
     .active {
