@@ -1,22 +1,21 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Router from 'react-router-dom';
 
+import { fetchAllShowsInfo } from '../../actions/allShowsInfo';
+
 import './MoreList.css';
 
-const ListItem = ({ id, episodeInfo }) => (
+const ListItem = ({ title, description, imgSrc, url}) => (
     <li>
-        <Link>
-            <div>
-                <div className="moreList-image-container">
-                    <img/>
-                    <p>date</p>
-                    <p>runtime</p>
-                </div>
-                <div className="moreList-description-container">
-                    <h1>{episodeInfo.title}</h1>
-                    <p>{episodeInfo.description}</p>
-                </div>
+        <Link to={url}>
+            <div className="moreList-image-container">
+                <img src={imgSrc}/>
+            </div>
+            <div className="moreList-description-container">
+                <h1>{title}</h1>
+                <p>{description}</p>
             </div>
         </Link>
     </li>
@@ -24,21 +23,74 @@ const ListItem = ({ id, episodeInfo }) => (
 
 class MoreList extends Component {
 
-    render() {
+    componentWillMount() {
+        if(this.props.isHome) {
+            this.props.fetchAllShowsInfo();
+        }
+    }
 
+
+    isHome() {
         let listenItemArray = [];
 
-        for(let i = 0; i < 7 && i < this.props.episodeArray.length; i++) {
-            listenItemArray.push(<ListItem id={this.props.episodeArray.length - i - 1} episodeInfo={this.props.episodeArray[i]} />);
+        for(let i = 0; i < 7; i++) {
+            listenItemArray.push(
+                <ListItem key={i} 
+                    title={this.props.allShowsInfo.data[i].title}
+                    description={this.props.allShowsInfo.data[i].description.long}
+                    imgSrc={this.props.allShowsInfo.data[i].image}
+                    url={"/shows/" + this.props.allShowsInfo.data[i].showName}
+                />
+            );
         }
 
         return(
             <ul className="moreList-container">
-                {/* {listenItemArray} */}
-                <div className="moreList-button">See More</div>
+                {listenItemArray}
             </ul>
         );
     }
+
+    episodeList() {
+
+        let listenItemArray = [];
+
+        for(let i = 0; i < this.props.allShowsInfo.data.length; i++) {
+            listenItemArray.push(<ListItem key={i}/>);
+        }
+
+        return(
+            <ul className="moreList-container moreList-episode">
+                {listenItemArray}
+                <Link to="/shows/" className="moreList-button">See More</Link>
+            </ul>
+        );
+    }
+
+    render() {
+
+        if(this.props.isHome && this.props.allShowsInfo.data) {
+            return(this.isHome());
+        } else if(!this.props.isHome) {
+            return(this.episodeList());
+        } else {
+            return(
+                <p>Loading...</p>
+            );
+        }
+    }
 }
 
-export default MoreList;
+const mapStateToProps = (state, props) => {
+    return {
+        allShowsInfo: state.allShowsInfo
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchAllShowsInfo: () => dispatch(fetchAllShowsInfo())
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MoreList);
