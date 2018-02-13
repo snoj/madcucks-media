@@ -5,9 +5,10 @@
   "dependencies": {
     "node-podcast-parser": "https://github.com/ArmaanButt/node-podcast-parser.git",
     "node-sass-chokidar": "^0.0.3",
-    "plyr": "^3.0.0-beta.12",
     "react": "^16.2.0",
+    "react-audioplayer": "^0.3.1",
     "react-dom": "^16.2.0",
+    "react-icons": "^2.2.7",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.0",
