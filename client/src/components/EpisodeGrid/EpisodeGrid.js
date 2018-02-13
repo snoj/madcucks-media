@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { podcastFetchData } from '../../actions/podcast';
+import { podcastFetchData, fetchRecentEpisodes } from '../../actions/podcast';
 
 import Thumbnail from '../Thumbnail/Thumbnail';
 import './EpisodeGrid.css';
 
 class EpisodeGrid extends Component {
     componentDidMount = () => {
-        this.props.fetchShow(this.props.showName);
+        if(this.props.isHome) {
+            this.props.fetchRecent();
+        } else {
+            this.props.fetchShow(this.props.showName);
+        }
+        
     }
 
     render() {
@@ -20,16 +25,29 @@ class EpisodeGrid extends Component {
         if(this.props.hasErrored) {
             return (<p>Sorry! There was an error loading the items</p>);
         }
+
         let thumbnails = [];
-
-        if(this.props.podcast) {
-            console.log(this.props.podcast);
-        }
-
-        this.props.podcast.episodes && this.props.podcast.episodes.map((a, i) => {
-            const url = "/shows/" + this.props.showName + "/" + (this.props.podcast.episodes.length - i - 1).toString();
+        this.props.isHome && this.props.recentEpisodes && this.props.recentEpisodes.map((a) => {
             thumbnails.push(
-                <Thumbnail episodeURL={url} imageSrc={a.image ? a.image : this.props.podcast.image} title={a.title}/>
+                <Thumbnail key={a.guid} 
+                    episodeURL={"/shows/" + a.showName + "/" +  encodeURIComponent(a.guid)} 
+                    imageSrc={a.image} 
+                    title={a.title}
+                    duration={a.duration}
+                />
+            );
+        });
+
+        !this.props.isHome && this.props.podcast && Object.keys(this.props.podcast.episodes).map((encodedGuid) => {
+            const episodeInfo = this.props.podcast.episodes[encodedGuid];
+            const url = "/shows/" + this.props.showName + "/" + encodeURIComponent(episodeInfo.guid);
+            thumbnails.push(
+                <Thumbnail 
+                    episodeURL={url} 
+                    imageSrc={episodeInfo.image ? episodeInfo.image : this.props.podcast.image} 
+                    title={episodeInfo.title}
+                    duration={episodeInfo.duration}
+                />
             );
         });
 
@@ -41,17 +59,19 @@ class EpisodeGrid extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, props) => {
     return {
         podcast: state.podcastFetchDataSuccess,
         hasErrored: state.podcastHasErrored,
-        isLoading: state.podcastIsLoading
+        isLoading: state.podcastIsLoading,
+        recentEpisodes: state.recentEpisodes
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchShow: (showName) => dispatch(podcastFetchData(showName))
+        fetchShow: (showName) => dispatch(podcastFetchData(showName)),
+        fetchRecent: () => dispatch(fetchRecentEpisodes())
     };
 };
 
