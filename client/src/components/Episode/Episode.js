@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom'
-import { podcastFetchData } from '../../actions/podcast';
+import { podcastFetchData, podcastIsLoading, setPodcastToNull } from '../../actions/podcast';
 import MoreList from '../MoreList/MoreList';
+import Player from '../Player/Player';
+
+import FaDownload from 'react-icons/lib/fa/download';
 
 import './Episode.css';
 
@@ -12,13 +15,22 @@ class Episode extends Component {
         super(props);
     }
 
-    componentDidMount = () => {
-        console.log("Mounting Episode...");
-        console.log(this.props.match.params.show);
+    componentWillMount = () => {
         this.props.fetchShow(this.props.match.params.show);
     }
 
+    componentDidMount = () => {
+        console.log("Mounting Episode...");
+        console.log(this.props.match.params.show);
+    }
+
+    componentWillUnmount = () => {
+        console.log("Unmounting Episode...")
+        this.props.setPodcastToNull();
+    }
+
     render() {
+        console.log(this.props.location.pathname);
         if(this.props.hasErrored) {
             return(<h1>Failed to Load</h1>);
         }
@@ -27,33 +39,33 @@ class Episode extends Component {
             return(<p>Loading...</p>);
         }
 
-        if(this.props.podcast.episodes && this.props.match.params.id >= this.props.podcast.episodes.length) {
+        const guid = this.props.match.params.id;
+
+        if(this.props.podcast && this.props.podcast.episodes && !(guid in this.props.podcast.episodes)) {
             return(<Redirect to="/404"/>);
         }
 
-        const numEpisodes = this.props.podcast.episodes && this.props.podcast.episodes.length;
-        const id = parseInt(this.props.match.params.id);
-    
         return(
-            <div className="episode-container">
-                {this.props.podcast.episodes &&    
-                    <React.Fragment>
-                        <div className="episode-image">
-                            <img src={this.props.podcast.episodes[numEpisodes - id - 1].image} />
-                            <a>
-                                <div className="download-button">
-                                    Download
-                                </div>
-                            </a>
-                        </div>
-                        <div className="episode-info">
-                            <h1>{this.props.podcast.episodes[numEpisodes - id - 1].title}</h1>
-                            <p>{this.props.podcast.episodes[numEpisodes - id - 1].description.replace(/<\/?.+?>/ig, '')}</p>
-                        </div>
-                    </React.Fragment>
-                }
-                <MoreList/>
-            </div>
+            <React.Fragment>
+                <div className="episode-container">
+                    {!this.props.isLoading && this.props.podcast &&    
+                        <React.Fragment>
+                            <div className="episode-image">
+                                <img src={this.props.podcast.episodes[guid].image} />
+                                <a className="download-button" href={this.props.podcast.episodes[guid].enclosure.url}>
+                                    <FaDownload/> Download
+                                </a>
+                            </div>
+                            <div className="episode-info">
+                                <h1>{this.props.podcast.episodes[guid].title}</h1>
+                                <p>{this.props.podcast.episodes[guid].description.replace(/<\/?.+?>/ig, '')}</p>
+                            </div>
+                            <MoreList episodeArray={this.props.podcast.episodes}/>
+                        </React.Fragment>
+                    }
+                </div>
+                {this.props.podcast && <Player url={this.props.podcast.episodes[guid].enclosure.url}/>}
+            </React.Fragment>
         );
         
     }
@@ -69,7 +81,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchShow: (showName) => dispatch(podcastFetchData(showName))
+        fetchShow: (showName) => dispatch(podcastFetchData(showName)),
+        setPodcastToNull: () => dispatch(setPodcastToNull())
     }
 }
 
