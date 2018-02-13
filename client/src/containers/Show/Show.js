@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import EpisodeGrid from '../../components/EpisodeGrid/EpisodeGrid';
+import MoreList from '../../components/MoreList/MoreList';
 
 const Show = ({match}) => (
-    <React.Fragment>
-        <EpisodeGrid showName={match.params.show} />
-    </React.Fragment>
+    <EpisodeGrid isHome={false} showName={match.params.show} />
 );
 
 
