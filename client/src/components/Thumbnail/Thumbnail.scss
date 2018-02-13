@@ -1,13 +1,12 @@
-$break-small: 480px;
-$break-medium: 720px;
+@import '../../variables.scss';
 
 .thumbnail-container {
     
     display: flex;
     flex-direction: column;
-    padding-top: 1em;
-    padding-bottom: 1em;
     flex: 0 0 32%;
+    background-color: $madcucks-actual-black;
+    margin-top: 2em;
 
     @media screen and (max-width: $break-medium) {
         flex: 0 0 48%;
@@ -18,15 +17,16 @@ $break-medium: 720px;
     }
 
     img {
-        flex: 0 0 80%;
+        flex: 0 0 90%;
         width: 100%;
-    }
+    }  
 
-    div {
-        background-color: black;
-        flex: 0 0 20%;
+    .thumbnail-info-container {
+        background-color: $madcucks-actual-black;
+        flex: 0 0 10%;
         text-align: left;
-        font-size: 0.9em;
+        font-size: 0.8em;
+        padding: 0.5em;
 
         .thumbnail-span-heading {
             color: white;
@@ -35,6 +35,7 @@ $break-medium: 720px;
         .thumbnail-span-subheading {
             color: grey;
         }
-
     }
+
+
 }

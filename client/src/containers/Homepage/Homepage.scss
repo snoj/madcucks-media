@@ -1,0 +1,28 @@
+@import '../../variables.scss';
+
+.homepage-container {
+    display: flex;
+    flex-direction: row;
+    flex-flow: wrap;
+
+    .episodegrid-container {
+        flex: 6.5;
+
+        @media screen and (max-width: $break-medium){
+            flex: 0 0 95%;
+        }
+    }
+
+    .moreList-container {
+        flex: 3.5;
+        padding: 1em;
+
+        @media screen and (max-width: $break-medium){
+            flex: 0 0 95%;
+        }
+    }
+
+    .moreList-episode {
+        flex: 0 0 35%;
+    }
+}

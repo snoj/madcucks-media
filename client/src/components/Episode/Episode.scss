@@ -3,30 +3,61 @@
 .episode-container {
     display: flex;
     flex-direction: row;
-    padding: 1em 1em;
     justify-content: space-around;
+    padding: 2em;
+    margin: 0 1em 0 1em;
+
+
+    @media screen and (max-width: $break-medium){
+        flex-direction: column;
+        justify-content: center;
+    }
 
     .episode-image {
-        flex: 0 0 25%;
+        flex: 0 0 20%;
         display: flex;
         flex-direction: column;
 
+        @media screen and (max-width: $break-medium){
+            width: 70%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media screen and (max-width: $break-small){
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
         img {
-            width: 100%
+            width: 100%;
+
         }
 
         .download-button {
             background-color: $madcucks-orange;
             color: white;
             text-align: center;
-            margin: 1em 0em 0em 0em;
+            margin-top: 10px;
+            padding: 0.5em 1em 0.5em 1em;
 
         }
     }
 
     .episode-info {
-        flex: 0 0 50%;
+        flex: 0 0 35%;
         color: white;
+        display: flex;
+        flex-direction: column;
+        margin: 0 1em 0 1em;
+        text-align: justify;
+
+
+        @media screen and (max-width: $break-medium){
+            margin: 0em;
+            margin-top: 1em;
+        }
 
         h1 {
             color: $madcucks-orange;

@@ -1,0 +1,10 @@
+@import '../../variables.scss';
+
+footer {
+    position: fixed;
+    padding: 0.5em;
+    bottom: 0;
+    z-index: 999;
+    width: 100vw;
+    background: $madcucks-audio-black;
+}
