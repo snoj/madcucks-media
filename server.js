@@ -1,12 +1,32 @@
 const express = require('express');
+const Promise = require('bluebird');
 const fetch = require('node-fetch');
 const parsePodcast = require('node-podcast-parser');
 const redis = require('redis');
+Promise.promisifyAll(redis.RedisClient.prototype);
+Promise.promisifyAll(redis.Multi.prototype);
 
-const redisClient = redis.createClient({host : 'localhost', port : 6379});
+const  Queue = require('bull');
+const log4js = require('log4js');
+
+var logger = log4js.getLogger();
+
+logger.level = 'ALL';
+
+
+const rssQueue = new Queue('rss refresher', 'redis://127.0.0.1:6379');
+
+const redisHost = process.env.REDIS_PORT_6379_TCP_ADDR || '127.0.0.1';
+const redisPort = process.env.REDIS_PORT_6379_TCP_PORT || 6379;
+const redisClient = redis.createClient({
+    host: redisHost,
+    port: redisPort
+});
 
 const app = express();
 const port = process.env.PORT || 5000;
+
+const showList = ["thedickshow","thatlarryshow","lawsplaining","hwidg","sciencefriction","realnerdhours","biggestproblem"];
 
 redisClient.on('ready',function() {
     console.log("Redis is ready");
@@ -14,6 +34,41 @@ redisClient.on('ready',function() {
 
 redisClient.on('error',function() {
     console.log("Error in Redis");
+});
+
+app.get('/api/shows/', (req, res) => {
+
+    logger.info("Received request: /api/shows");
+
+    let aggregateShowInfo = [];
+
+    let promiseArr = showList.map((showName) => {
+        logger.debug(showName);
+            return redisClient.getAsync(showName)
+                        .then((reply) => {
+                            logger.debug("Got data for " + showName + "from Redis");
+                            let rssjson = JSON.parse(reply);
+                            delete rssjson.episodes;
+                            rssjson.showName = showName;
+                            aggregateShowInfo.push(rssjson);
+                        })
+                        .catch((err) => {
+                            logger.error(err);
+                        });
+    });
+
+    Promise.all(promiseArr)
+        .then(() => {
+            logger.trace("All promises have resolved");
+            aggregateShowInfo.sort((a, b) => {
+                return (a.title > b.title) ? -1 : ((a.title < b.title) ? 1 : 0);
+            });
+            res.json(aggregateShowInfo);
+        })
+        .catch((err) => {
+            logger.error(err);
+        });
+
 });
 
 app.get('/api/shows/:showName', (req, res) => {
@@ -99,7 +154,45 @@ app.get('/api/shows/:showName', (req, res) => {
 
 });
 
-app.get('/api/shows/:show/:id', (req, res) => {
+app.get('/api/home', (req, res) => {
+
+    logger.info("Received request: /api/home");
+
+    let aggregateEpisodeList = [];
+
+    let promiseArr = showList.map((showName) => {
+        logger.debug(showName);
+            return redisClient.getAsync(showName)
+                        .then((reply) => {
+                            logger.debug("Got data for " + showName + "from Redis");
+                            let rssjson = JSON.parse(reply);
+                            Object.keys(rssjson.episodes).map((key) => {
+                                rssjson.episodes[key]["showName"] = showName;
+                                aggregateEpisodeList.push(rssjson.episodes[key]);
+                            });
+                        })
+                        .catch((err) => {
+                            logger.error(err);
+                        });
+    });
+
+    Promise.all(promiseArr)
+        .then(() => {
+            logger.trace("All promises have resolved");
+            //Sort in decending order
+            aggregateEpisodeList.sort((a, b) => {
+                return (a.published > b.published) ? -1 : ((a.published < b.published) ? 1 : 0);
+            });
+
+            logger.debug("Total number of episodes: " + aggregateEpisodeList.length.toString(10));
+            res.json(aggregateEpisodeList.slice(0, 30));
+        })
+        .catch((err) => {
+            logger.error(err);
+        });
+
+    
+    
 
 });
 
