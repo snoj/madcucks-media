@@ -3,6 +3,9 @@
 #Using scss, must ignore css
 *.css
 
+#Ignore Redis DB dump
+dump.rdb
+
 # dependencies
 /node_modules
 /client/node_modules
