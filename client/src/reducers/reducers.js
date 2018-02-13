@@ -10,14 +10,16 @@ import {
     podcastIsLoading, 
     podcastHasErrored, 
     podcastFetchDataSuccess,
-    recentEpisodes 
+    recentEpisodes,
+    allShowsInfo 
 } from './podcast';
 
 const rootReducer = combineReducers({
     podcastHasErrored,
     podcastIsLoading,
     podcastFetchDataSuccess,
-    recentEpisodes
+    recentEpisodes,
+    allShowsInfo
 });
 
 export default rootReducer;

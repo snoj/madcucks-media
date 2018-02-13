@@ -55,11 +55,11 @@ export function fetchRecentEpisodes() {
                 dispatch(getRecentEpisodes(json));
             })
             .catch((err) => {
-                dispatch(podcastIsLoading(true));
+                dispatch(podcastIsLoading(false));
                 dispatch(podcastHasErrored(true));
                 console.log(err);
             });
-    }
+    };
 }
 
 export function podcastFetchData(showName) {
@@ -78,5 +78,5 @@ export function podcastFetchData(showName) {
                 dispatch(podcastHasErrored(true));
                 console.log(err);
             });
-    }
+    };
 }
