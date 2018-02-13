@@ -9,13 +9,13 @@ import Episode from '../../components/Episode/Episode';
 
 const App = () => (
   <Router>
-    <div>
+    <React.Fragment>
       <NavBar/>
       <Route exact path="/" component={Homepage}/>
       <Route path="/interaction"/>
       <Route exact path="/shows/:show" component={Show}/>
       <Route exact path="/shows/:show/:id" component={Episode}/>
-    </div>
+    </React.Fragment>
   </Router>
 );
 
