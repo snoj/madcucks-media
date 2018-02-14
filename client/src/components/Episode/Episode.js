@@ -5,7 +5,8 @@ import { podcastFetchData, podcastIsLoading, setPodcastToNull } from '../../acti
 import MoreList from '../MoreList/MoreList';
 import Player from '../Player/Player';
 
-import FaDownload from 'react-icons/lib/fa/download';
+import { FaDownload, FaExternalLinkSquare, FaNewspaperO } from 'react-icons/lib/fa';
+// import FaLink from 'react-icons/lib/fa/link';
 
 import './Episode.css';
 
@@ -19,20 +20,17 @@ class Episode extends Component {
         this.props.fetchShow(this.props.match.params.show);
     }
 
-    componentDidMount = () => {
-        console.log("Mounting Episode...");
-        console.log(this.props.match.params.show);
-    }
-
     componentWillUnmount = () => {
-        console.log("Unmounting Episode...")
         this.props.setPodcastToNull();
     }
 
+    setDescriptionMarkUp= (description) => {
+        return { __html: description};
+    }
+
     render() {
-        console.log(this.props.location.pathname);
         if(this.props.hasErrored) {
-            return(<h1>Failed to Load</h1>);
+            return(<h1>Failed to Load, Please Refresh</h1>);
         }
 
         if(this.props.isLoading) {
@@ -41,7 +39,7 @@ class Episode extends Component {
 
         const guid = this.props.match.params.id;
 
-        if(this.props.podcast && this.props.podcast.episodes && !(guid in this.props.podcast.episodes)) {
+        if(!this.props.isLoading && this.props.podcast && this.props.podcast.episodes && !(guid in this.props.podcast.episodes)) {
             return(<Redirect to="/404"/>);
         }
 
@@ -55,12 +53,20 @@ class Episode extends Component {
                                 <a className="download-button" href={this.props.podcast.episodes[guid].enclosure.url}>
                                     <FaDownload/> Download
                                 </a>
+                                <a className="episode-button" href={this.props.podcast.episodes[guid].link}>
+                                    <FaNewspaperO/> Read Episode Post
+                                </a>
+                                <a className="podcast-homepage-button" href={this.props.podcast.link}>
+                                    <FaExternalLinkSquare/> Podcast Homepage
+                                </a>
                             </div>
                             <div className="episode-info">
                                 <h1>{this.props.podcast.episodes[guid].title}</h1>
-                                <p>{this.props.podcast.episodes[guid].description.replace(/<\/?.+?>/ig, '')}</p>
+                                <h2>{new Date(this.props.podcast.episodes[guid].published).toDateString()}</h2>
+                                <br/>
+                                <div className="episode-description" dangerouslySetInnerHTML={this.setDescriptionMarkUp(this.props.podcast.episodes[guid].description)}></div>
                             </div>
-                            <MoreList episodeArray={this.props.podcast.episodes}/>
+                            {this.props.podcast.episodes && <MoreList isHome={false}/>}
                         </React.Fragment>
                     }
                 </div>
