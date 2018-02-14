@@ -1,6 +1,7 @@
 const fetch = require('node-fetch');
 const Queue = require('bull');
 const parsePodcast = require('node-podcast-parser');
+const sanitizer = require('sanitizer');
 
 const log4js = require('log4js');
 
@@ -77,12 +78,16 @@ rssQueue.process((job, done) => {
                             let tempEpisodeList = {};
 
                             data.episodes.map((episode) => {
+                                //Santize description. Didn't want to get rid of html and embedded elements entirely.
+                                episode.description = sanitizer.sanitize(episode.description);
+                                //Using GUID as hash to easily pull up episode information.
                                 tempEpisodeList[encodeURIComponent(episode.guid)] = episode;
                             });
 
                             // console.log(tempEpisodeList);
 
                             data.episodes = tempEpisodeList;
+                            data.showName = showName;
 
                             redisClient.set(showName,JSON.stringify(data), (err, reply) => {
                                 if(!err) {
