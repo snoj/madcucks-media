@@ -5,13 +5,23 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
+
+    @media screen and (max-width: $break-large){
+        display: block;
+        padding: 0 1em;
+        text-align: center;
+    }
 }
 
 .logo {
     font-weight: 400;
-    flex-grow: 2;
-    padding: 1em;
     flex: 0 0 60%;
+    margin: 0;
+    padding: 1em;
+
+    @media screen and (max-width: $break-medium) {
+        flex: 0 0 100%;
+    }
 
     h1 {
         font-size: 1.4em;
@@ -27,6 +37,11 @@
 .navbar-button-container {
     flex: 0 0 35%;
     background: $madcucks-black;
+
+    @media screen and (max-width: $break-large) {
+        flex: 0 0 100%;
+        justify-content: center;
+    }
 
     @media screen and (max-width: $break-medium) {
         flex: 0 0 100%;

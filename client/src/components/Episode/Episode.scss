@@ -4,9 +4,11 @@
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    padding: 2em;
-    margin: 0 1em 0 1em;
 
+    @media screen and (max-width: $break-large){
+        flex-wrap: wrap;
+        margin: 0 2em;
+    }
 
     @media screen and (max-width: $break-medium){
         flex-direction: column;
@@ -18,14 +20,20 @@
         display: flex;
         flex-direction: column;
 
+        @media screen and (max-width: $break-large){
+            flex: 0 0 35%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
         @media screen and (max-width: $break-medium){
-            width: 70%;
+            width: 80%;
             margin-left: auto;
             margin-right: auto;
         }
 
         @media screen and (max-width: $break-small){
-            width: 100%;
+            width: 90%;
             margin-left: auto;
             margin-right: auto;
         }
@@ -43,30 +51,62 @@
             padding: 0.5em 1em 0.5em 1em;
 
         }
+
+        .episode-button {
+            background-color: $madcucks-red;
+            color: white;
+            text-align: center;
+            margin-top: 10px;
+            padding: 0.5em 1em 0.5em 1em;
+        }
+
+        .podcast-homepage-button {
+            background-color: $madcucks-grey;
+            color: white;
+            text-align: center;
+            margin-top: 10px;
+            padding: 0.5em 1em 0.5em 1em;
+        }
     }
 
     .episode-info {
-        flex: 0 0 35%;
+        flex: 0 0 45%;
         color: white;
         display: flex;
         flex-direction: column;
-        margin: 0 1em 0 1em;
-        text-align: justify;
+        padding: 0em 1em;
 
+        @media screen and (max-width: $break-large){
+            flex: 0 0 60%;
+        }
 
         @media screen and (max-width: $break-medium){
-            margin: 0em;
             margin-top: 1em;
         }
 
         h1 {
             color: $madcucks-orange;
-            margin: 0;
             font-size: 1em;
+            font-weight: 400;
         }
 
-        p {
-            color: #BCBCBC;
+        h2 {
+            color: white;
+            font-size: 1em;
+            font-weight: 400;
+        }
+
+    }
+
+    .episode-description {
+
+        color: $madcucks-light-grey;
+
+        img {
+            display: block;
+            height: auto;
+            width: 100%;
+            margin: 0 auto;
         }
     }
 }

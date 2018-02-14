@@ -5,10 +5,10 @@
     flex-direction: row;
     flex-flow: wrap;
     justify-content: space-evenly;
-    padding: 1em;
+    padding: 0 1em 1em 1em;
 
     @media screen and (max-width: $break-small){
-        justify-content: center;
+        display: block;
     }
 
 }

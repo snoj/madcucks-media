@@ -4,5 +4,12 @@ body {
   margin: 0;
   padding-bottom: 8.5em;
   background-color: $madcucks-black;
-  width: 100%;
+}
+
+#root {
+  max-width: 80rem;
+  position: relative;
+  overflow: hidden;
+  width: 100vw;
+  margin: 0 auto;
 }

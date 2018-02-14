@@ -5,8 +5,16 @@
     flex-direction: row;
     flex-flow: wrap;
 
+    @media screen and (max-width: $break-small){
+        display: block;
+    }
+
     .episodegrid-container {
         flex: 6.5;
+
+        @media screen and (max-width: $break-large){
+            flex: 0 0 95%;
+        }
 
         @media screen and (max-width: $break-medium){
             flex: 0 0 95%;
@@ -15,7 +23,11 @@
 
     .moreList-container {
         flex: 3.5;
-        padding: 1em;
+        padding: 0em 1em 1em 1em;
+
+        @media screen and (max-width: $break-large){
+            flex: 0 0 95%;
+        }
 
         @media screen and (max-width: $break-medium){
             flex: 0 0 95%;
