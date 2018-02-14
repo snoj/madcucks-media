@@ -29,11 +29,13 @@ class EpisodeGrid extends Component {
         let thumbnails = [];
         this.props.isHome && this.props.recentEpisodes && this.props.recentEpisodes.map((a) => {
             thumbnails.push(
-                <Thumbnail key={a.guid} 
+                <Thumbnail 
+                    key={a.guid} 
                     episodeURL={"/shows/" + a.showName + "/" +  encodeURIComponent(a.guid)} 
                     imageSrc={a.image} 
                     title={a.title}
                     duration={a.duration}
+                    date={a.published}
                 />
             );
         });
@@ -42,11 +44,13 @@ class EpisodeGrid extends Component {
             const episodeInfo = this.props.podcast.episodes[encodedGuid];
             const url = "/shows/" + this.props.showName + "/" + encodeURIComponent(episodeInfo.guid);
             thumbnails.push(
-                <Thumbnail 
+                <Thumbnail
+                    key={episodeInfo.guid} 
                     episodeURL={url} 
                     imageSrc={episodeInfo.image ? episodeInfo.image : this.props.podcast.image} 
                     title={episodeInfo.title}
                     duration={episodeInfo.duration}
+                    date={episodeInfo.published}
                 />
             );
         });
