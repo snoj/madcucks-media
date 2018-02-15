@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom'
-import { podcastFetchData, podcastIsLoading, setPodcastToNull } from '../../actions/podcast';
+import { podcastFetchData, setPodcastToNull } from '../../actions/podcast';
 import MoreList from '../MoreList/MoreList';
 import Player from '../Player/Player';
 
@@ -11,9 +11,6 @@ import './Episode.css';
 
 
 class Episode extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     componentWillMount = () => {
         this.props.fetchShow(this.props.match.params.show);
@@ -48,7 +45,7 @@ class Episode extends Component {
                     {!this.props.isLoading && this.props.podcast &&    
                         <React.Fragment>
                             <div className="episode-image">
-                                <img src={this.props.podcast.episodes[guid].image ? this.props.podcast.episodes[guid].image: this.props.podcast.image} />
+                                <img src={this.props.podcast.episodes[guid].image ? this.props.podcast.episodes[guid].image: this.props.podcast.image} alt=""/>
                                 <a className="download-button" href={this.props.podcast.episodes[guid].enclosure.url}>
                                     <FaDownload/> Download
                                 </a>

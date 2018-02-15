@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Audio from 'react-audioplayer';
 import plyr from 'plyr';
 import './plyr.css';
 import './Player.css';
@@ -30,7 +29,7 @@ class Player extends Component {
         return(
             <footer className="player-container">
                 <div className="player-episodeinfo-container">
-                    <img src={this.props.episodeInfo.image}/>
+                    <img src={this.props.episodeInfo.image} alt=""/>
                     <div>
                        <p className="title">{this.props.episodeInfo.title}</p>
                        <p className="description">{this.props.episodeInfo.description.replace(/<\/?.+?>/ig, '').slice(0,50)}</p>

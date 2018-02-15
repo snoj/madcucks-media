@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import Router from 'react-router-dom';
 
 import { fetchAllShowsInfo } from '../../actions/allShowsInfo';
 
@@ -11,7 +10,7 @@ const ListItem = ({ title, description, imgSrc, url}) => (
     <li>
         <Link to={url}>
             <div className="moreList-image-container">
-                <img src={imgSrc}/>
+                <img src={imgSrc} alt=""/>
             </div>
             <div className="moreList-description-container">
                 <h1>{title}</h1>
