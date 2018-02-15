@@ -11,7 +11,7 @@ export default class NavBar extends Component {
         return(
             <header className="header-container">
                 <a className="logo">
-                    <h1>The Bestest Podcast Network in Existence</h1>
+                    <h1>The Bestest Podcast Network in Existence<sup>v0.1.0</sup></h1>
                     <h2>All the best podcasts in existence. Also this site cost $0.</h2>
                 </a>
                 <div className="navbar-button-container">

@@ -51,23 +51,27 @@ class MoreList extends Component {
         );
     }
 
-    episodeList = () => {
+    episodeList = (guid) => {
 
         let listenItemArray = [];
 
         for(let key in this.props.podcast.episodes) {
             if(listenItemArray.length > 5) {
                 break;
+            } else if (key === guid){
+                continue;
+
+            } else {
+                let episode = this.props.podcast.episodes[key];
+                listenItemArray.push(
+                    <ListItem key={key} 
+                        title={episode.title}
+                        description={episode.description}
+                        imgSrc={episode.image ? episode.image:this.props.podcast.image}
+                        url={"/shows/" + this.props.podcast.showName + "/" + key}
+                    />
+                );
             }
-            let episode = this.props.podcast.episodes[key];
-            listenItemArray.push(
-                <ListItem key={key} 
-                    title={episode.title}
-                    description={episode.description}
-                    imgSrc={episode.image}
-                    url={"/shows/" + episode.showName + "/" + key}
-                />
-            );
         }
 
         return(
@@ -89,7 +93,7 @@ class MoreList extends Component {
         if(this.props.isHome && this.props.allShowsInfo.data) {
             return(this.isHome());
         } else if(!this.props.isHome && !this.props.isLoading && !this.props.hasErrored) {
-            return(this.episodeList());
+            return(this.episodeList(this.props.guid));
         } else {
             return(
                 <p>Loading...</p>

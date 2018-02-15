@@ -2,11 +2,71 @@
 
 footer {
     position: fixed;
-    padding: 0.5em;
     bottom: 0;
-    z-index: 999;
+    z-index: 9999;
     width: 100vw;
-    background: $madcucks-audio-black;
     left: 0;
-    right: 0;
+    background: $madcucks-audio-black;
+}
+
+.plyr--audio .plyr__controls button.tab-focus:focus, .plyr--audio .plyr__controls button:hover {
+    background: $madcucks-orange;
+}
+
+
+.player-container {
+    display: block;
+    padding: 0.5em 1em;
+}
+
+.player-audio-container {
+    padding-right: 2em; 
+
+    @media screen and (max-width: $break-medium) {
+        width: 95%;
+        float: left;
+    }
+}
+
+
+.player-episodeinfo-container {
+
+    img {
+        height: 3em;
+        float: left;
+
+        @media screen and (max-width: $break-small) {
+            visibility: hidden;
+            display: none;
+        }
+    }
+
+    div {
+        float: left;
+        padding-left: 1em;
+        padding-top: 0.6em;
+        font-size: 0.8em;
+
+        p {
+            margin: 0;
+        }
+
+        .title {
+            color: $madcucks-orange;
+        }
+
+        .description {
+            color: white;
+        }
+    }
+}
+
+.plyr--audio .plyr__controls {
+    padding: 10px;
+    background: $madcucks-audio-black;
+    border: 0;
+}
+
+.plyr__progress--played, .plyr__volume--display {
+    color: $madcucks-orange;
 }

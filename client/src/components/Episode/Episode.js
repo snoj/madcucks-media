@@ -6,7 +6,6 @@ import MoreList from '../MoreList/MoreList';
 import Player from '../Player/Player';
 
 import { FaDownload, FaExternalLinkSquare, FaNewspaperO } from 'react-icons/lib/fa';
-// import FaLink from 'react-icons/lib/fa/link';
 
 import './Episode.css';
 
@@ -49,7 +48,7 @@ class Episode extends Component {
                     {!this.props.isLoading && this.props.podcast &&    
                         <React.Fragment>
                             <div className="episode-image">
-                                <img src={this.props.podcast.episodes[guid].image} />
+                                <img src={this.props.podcast.episodes[guid].image ? this.props.podcast.episodes[guid].image: this.props.podcast.image} />
                                 <a className="download-button" href={this.props.podcast.episodes[guid].enclosure.url}>
                                     <FaDownload/> Download
                                 </a>
@@ -66,11 +65,11 @@ class Episode extends Component {
                                 <br/>
                                 <div className="episode-description" dangerouslySetInnerHTML={this.setDescriptionMarkUp(this.props.podcast.episodes[guid].description)}></div>
                             </div>
-                            {this.props.podcast.episodes && <MoreList isHome={false}/>}
+                            {this.props.podcast.episodes && <MoreList isHome={false} guid={guid}/>}
                         </React.Fragment>
                     }
                 </div>
-                {this.props.podcast && <Player url={this.props.podcast.episodes[guid].enclosure.url}/>}
+                {this.props.podcast ? <Player key={guid} episodeInfo={this.props.podcast.episodes[guid]}/> : null}
             </React.Fragment>
         );
         
