@@ -31,8 +31,8 @@ class Player extends Component {
                 <div className="player-episodeinfo-container">
                     <img src={this.props.episodeInfo.image} alt=""/>
                     <div>
-                       <p className="title">{this.props.episodeInfo.title}</p>
-                       <p className="description">{this.props.episodeInfo.description.replace(/<\/?.+?>/ig, '').slice(0,50)}</p>
+                       <p className="title">{this.props.episodeInfo.title.trim().slice(0,50)}</p>
+                       <p className="description">{this.props.episodeInfo.description.trim().replace(/<\/?.+?>/ig, '').slice(0,50)}</p>
                     </div>
                 </div>
                 <div className="player-audio-container">

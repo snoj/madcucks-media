@@ -7,7 +7,6 @@
     "node-sass-chokidar": "^0.0.3",
     "plyr": "^2.0.18",
     "react": "^16.2.0",
-    "react-audioplayer": "^0.3.1",
     "react-dom": "^16.2.0",
     "react-icons": "^2.2.7",
     "react-redux": "^5.0.6",

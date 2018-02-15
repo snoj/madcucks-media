@@ -10,7 +10,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-client": "cd client && yarn build-css && yarn build",
     "install-client": "cd client && yarn install",
-    "start": "yarn install-client && yarn build-client && node server.js"
+    "start": "node server.js",
+    "postinstall": "yarn install-client && yarn build-client"
   },
   "repository": {
     "type": "git",

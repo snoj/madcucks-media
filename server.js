@@ -14,13 +14,12 @@ var logger = log4js.getLogger();
 
 logger.level = 'ALL';
 
-
-const rssQueue = new Queue('rss refresher', 'redis://127.0.0.1:6379');
-
-const redisHost = process.env.REDIS_URL || '127.0.0.1';
+const redisHost = process.env.REDIS_HOST || '127.0.0.1';
 const redisClient = redis.createClient({
     host: redisHost
 });
+
+logger.debug(redisHost);
 
 const app = express();
 const port = process.env.PORT || 5000;
