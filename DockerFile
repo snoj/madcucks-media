@@ -3,7 +3,7 @@ FROM node:9.5.0-alpine
 RUN apk update && apk upgrade && \
     apk add --no-cache bash git openssh
 
-RUN yarn global add nodemon@1.14.12
+
 RUN mkdir /usr/src && mkdir /usr/src/app
 
 ADD . /usr/src/app/

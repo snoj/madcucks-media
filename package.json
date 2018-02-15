@@ -8,9 +8,9 @@
     "server": "nodemon server.js",
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "cd client && yarn build-css && yarn build",
+    "build-client": "cd client && yarn build-css && yarn build",
     "install-client": "cd client && yarn install",
-    "start": "yarn install && yarn install-client && yarn build && node server.js"
+    "start": "node server.js && yarn install-client && yarn build"
   },
   "repository": {
     "type": "git",
