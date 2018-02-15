@@ -3,6 +3,7 @@ const Promise = require('bluebird');
 const fetch = require('node-fetch');
 const parsePodcast = require('node-podcast-parser');
 const redis = require('redis');
+const path = require('path');
 Promise.promisifyAll(redis.RedisClient.prototype);
 Promise.promisifyAll(redis.Multi.prototype);
 
@@ -16,11 +17,9 @@ logger.level = 'ALL';
 
 const rssQueue = new Queue('rss refresher', 'redis://127.0.0.1:6379');
 
-const redisHost = process.env.REDIS_PORT_6379_TCP_ADDR || '127.0.0.1';
-const redisPort = process.env.REDIS_PORT_6379_TCP_PORT || 6379;
+const redisHost = process.env.REDIS_URL || '127.0.0.1';
 const redisClient = redis.createClient({
-    host: redisHost,
-    port: redisPort
+    host: redisHost
 });
 
 const app = express();
@@ -35,6 +34,8 @@ redisClient.on('ready',function() {
 redisClient.on('error',function() {
     console.log("Error in Redis");
 });
+
+app.use(express.static(path.join(__dirname, 'client', 'build')));
 
 app.get('/api/shows/', (req, res) => {
 
