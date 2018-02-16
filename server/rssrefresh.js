@@ -100,7 +100,7 @@ showList.map((a) => {
 });
 
 showList.map((a) => {
-    setInterval(() => {rssRefresher(a)}, 1800 * 1000);
+    setInterval(() => {rssRefresher(a)}, 3600000);
 });
 
 

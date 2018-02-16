@@ -40,35 +40,63 @@ app.get('/api/shows/', (req, res) => {
 
     logger.info("Received request: /api/shows");
 
-    let aggregateShowInfo = [];
+    redisClient.exists('api-shows', (err, reply) => {
+        if(!err) {
+            if(reply) {
+                redisClient.get('api-shows', (err, reply) => {
+                    if(!err) {
+                        logger.info('api-shows found in redis cache');
+                        res.json(JSON.parse(reply));
+                    }
+                });
+            } else {
+                let aggregateShowInfo = [];
 
-    let promiseArr = showList.map((showName) => {
-        logger.debug(showName);
-            return redisClient.getAsync(showName)
-                        .then((reply) => {
-                            logger.debug("Got data for " + showName + "from Redis");
-                            let rssjson = JSON.parse(reply);
-                            delete rssjson.episodes;
-                            rssjson.showName = showName;
-                            aggregateShowInfo.push(rssjson);
-                        })
-                        .catch((err) => {
-                            logger.error(err);
+                let promiseArr = showList.map((showName) => {
+                    logger.debug(showName);
+                        return redisClient.getAsync(showName)
+                                    .then((reply) => {
+                                        logger.debug("Got data for " + showName + "from Redis");
+                                        let rssjson = JSON.parse(reply);
+                                        delete rssjson.episodes;
+                                        rssjson.showName = showName;
+                                        aggregateShowInfo.push(rssjson);
+                                    })
+                                    .catch((err) => {
+                                        logger.error(err);
+                                    });
+                });
+
+                Promise.all(promiseArr)
+                    .then(() => {
+                        logger.trace("All promises have resolved");
+                        aggregateShowInfo.sort((a, b) => {
+                            return (a.title > b.title) ? -1 : ((a.title < b.title) ? 1 : 0);
                         });
+                        redisClient.set('api-shows', JSON.stringify(aggregateShowInfo), (err, reply) => {
+                            if(!err) {
+                                if(reply) {
+                                    logger.info("Redis updated with: api-shows");
+                                } else {
+                                    logger.error("Failed to set key: api-shows");
+                                }
+                            } else {
+                                logger.error(err);
+                            }
+                        });
+                        //Set data expiry time to 24 hours
+                        redisClient.expire('api-shows', 86400);
+                        res.json(aggregateShowInfo);
+                    })
+                    .catch((err) => {
+                        logger.error(err);
+                    });
+            }
+            
+        }
     });
 
-    Promise.all(promiseArr)
-        .then(() => {
-            logger.trace("All promises have resolved");
-            aggregateShowInfo.sort((a, b) => {
-                return (a.title > b.title) ? -1 : ((a.title < b.title) ? 1 : 0);
-            });
-            res.json(aggregateShowInfo);
-        })
-        .catch((err) => {
-            logger.error(err);
-        });
-
+    
 });
 
 app.get('/api/shows/:showName', (req, res) => {
@@ -158,39 +186,67 @@ app.get('/api/home', (req, res) => {
 
     logger.info("Received request: /api/home");
 
-    let aggregateEpisodeList = [];
+    redisClient.exists('api-home', (err, reply) => {
+        if(!err) {
+            if(reply) {
+                redisClient.get('api-home', (err, reply) => {
+                    if(!err) {
+                        logger.info('api-home found in redis cache');
+                        res.json(JSON.parse(reply));
+                    }
+                });
+            } else {
+                let aggregateEpisodeList = [];
 
-    let promiseArr = showList.map((showName) => {
-        logger.debug(showName);
-            return redisClient.getAsync(showName)
-                        .then((reply) => {
-                            logger.debug("Got data for " + showName + "from Redis");
-                            let rssjson = JSON.parse(reply);
-                            Object.keys(rssjson.episodes).map((key) => {
-                                rssjson.episodes[key]["showName"] = showName;
-                                aggregateEpisodeList.push(rssjson.episodes[key]);
-                            });
-                        })
-                        .catch((err) => {
-                            logger.error(err);
+                let promiseArr = showList.map((showName) => {
+                    logger.debug(showName);
+                        return redisClient.getAsync(showName)
+                                    .then((reply) => {
+                                        logger.debug("Got data for " + showName + "from Redis");
+                                        let rssjson = JSON.parse(reply);
+                                        Object.keys(rssjson.episodes).map((key) => {
+                                            rssjson.episodes[key]["showName"] = showName;
+                                            aggregateEpisodeList.push(rssjson.episodes[key]);
+                                        });
+                                    })
+                                    .catch((err) => {
+                                        logger.error(err);
+                                    });
+                });
+
+                Promise.all(promiseArr)
+                    .then(() => {
+                        logger.trace("All promises have resolved");
+                        //Sort in decending order
+                        aggregateEpisodeList.sort((a, b) => {
+                            return (a.published > b.published) ? -1 : ((a.published < b.published) ? 1 : 0);
                         });
+
+                        logger.debug("Total number of episodes: " + aggregateEpisodeList.length.toString(10));
+
+                        redisClient.set('api-home', JSON.stringify(aggregateEpisodeList.slice(0, 30)), (err, reply) => {
+                            if(!err) {
+                                if(reply) {
+                                    logger.info("Redis updated with: api-home");
+                                } else {
+                                    logger.error("Failed to set key: api-home");
+                                }
+                            } else {
+                                logger.error(err);
+                            }
+                        });
+
+                        res.json(aggregateEpisodeList.slice(0, 30));
+                    })
+                    .catch((err) => {
+                        logger.error(err);
+                    });
+
+            }
+        }
     });
 
-    Promise.all(promiseArr)
-        .then(() => {
-            logger.trace("All promises have resolved");
-            //Sort in decending order
-            aggregateEpisodeList.sort((a, b) => {
-                return (a.published > b.published) ? -1 : ((a.published < b.published) ? 1 : 0);
-            });
-
-            logger.debug("Total number of episodes: " + aggregateEpisodeList.length.toString(10));
-            res.json(aggregateEpisodeList.slice(0, 30));
-        })
-        .catch((err) => {
-            logger.error(err);
-        });
-
+    
     
     
 
