@@ -10,3 +10,9 @@ services:
       - "redis"
   redis:
     image: "redis:alpine"
+  nginx:
+    build: ./nginx
+    ports:
+    - "80:80"
+    links:
+    - "web"
