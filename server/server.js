@@ -84,7 +84,7 @@ app.get('/api/shows/', (req, res) => {
                                 logger.error(err);
                             }
                         });
-                        //Set data expiry time to 24 hours
+                        //Set data expiry time to an hour
                         redisClient.expire('api-shows', 3600);
                         res.json(aggregateShowInfo);
                     })
@@ -235,8 +235,8 @@ app.get('/api/home', (req, res) => {
                                 logger.error(err);
                             }
                         });
-                        //Every hour data expires
-                        redisClient.expire('api-home', 3600);
+                        //Every 10 mins expires
+                        redisClient.expire('api-home', 600);
                         res.json(aggregateEpisodeList.slice(0, 30));
                     })
                     .catch((err) => {
