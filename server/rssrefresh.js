@@ -99,8 +99,10 @@ showList.map((a) => {
     rssRefresher(a);
 });
 
+//Refresh every 15 mins
+
 showList.map((a) => {
-    setInterval(() => {rssRefresher(a)}, 3600000);
+    setInterval(() => {rssRefresher(a)}, 900000);
 });
 
 
