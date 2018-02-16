@@ -7,7 +7,7 @@ const path = require('path');
 Promise.promisifyAll(redis.RedisClient.prototype);
 Promise.promisifyAll(redis.Multi.prototype);
 
-const  Queue = require('bull');
+
 const log4js = require('log4js');
 
 var logger = log4js.getLogger();
@@ -34,7 +34,7 @@ redisClient.on('error',function() {
     console.log("Error in Redis");
 });
 
-app.use(express.static(path.join(__dirname, 'client', 'build')));
+app.use(express.static(path.join(__dirname, '..', 'client', 'build')));
 
 app.get('/api/shows/', (req, res) => {
 

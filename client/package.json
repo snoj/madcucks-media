@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "node-podcast-parser": "https://github.com/ArmaanButt/node-podcast-parser.git",
     "node-sass-chokidar": "^0.0.3",
     "plyr": "^2.0.18",
     "react": "^16.2.0",
