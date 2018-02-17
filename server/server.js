@@ -9,9 +9,7 @@ Promise.promisifyAll(redis.Multi.prototype);
 
 
 const log4js = require('log4js');
-
 var logger = log4js.getLogger();
-
 logger.level = 'ALL';
 
 const redisHost = process.env.REDIS_URL || process.env.REDIS_HOST || '127.0.0.1';
@@ -24,7 +22,8 @@ logger.debug(redisHost);
 const app = express();
 const port = process.env.PORT || 5000;
 
-const showList = ["thedickshow","thatlarryshow","lawsplaining","hwidg","sciencefriction","realnerdhours","biggestproblem"];
+const podcasts = require('./config/podcasts.json');
+const showList = Object.keys(podcasts);
 
 redisClient.on('ready',function() {
     console.log("Redis is ready");
@@ -102,36 +101,6 @@ app.get('/api/shows/', (req, res) => {
 app.get('/api/shows/:showName', (req, res) => {
 
     const showName = req.params.showName;
-    let url = '';
-
-    switch(showName) {
-        case "thedickshow":
-            url = 'http://thedickshow.libsyn.com/thedickshow';
-            break;
-        case "thatlarryshow":
-            url = 'http://thatlarryshow.com/feed/podcast/';
-            break;
-        case "lawsplaining":
-            url = 'http://feeds.soundcloud.com/users/soundcloud:users:187351634/sounds.rss';
-            break;
-        case "hwidg":
-            url = 'http://hereswhatidontget.com/podcast?format=rss';
-            break;
-        case "sciencefriction":
-            url = 'http://sciencefriction.libsyn.com/rss';
-            break;
-        case "realnerdhours":
-            url = 'http://feeds.soundcloud.com/users/soundcloud:users:280249740/sounds.rss';
-            break;
-        case "biggestproblem":
-            url = 'http://biggest.thedickshow.com/feed/podcast';
-            break;
-        default:
-            res.status(400).send({
-                error: "Show specified doesn't exist"
-            });
-            return;
-    }
 
     redisClient.exists(showName, (err, reply) => {
         if(!err) {
@@ -142,43 +111,9 @@ app.get('/api/shows/:showName', (req, res) => {
                         res.json(JSON.parse(reply));
                     }
                 });
-            } else {
-                console.log("Key " + showName + " does not exist");
-                fetch(url)
-                    .then((res) => {
-                        return res.text();
-                    })
-                    .then((data) => {
-                        parsePodcast(data, (err, data) => {
-                            if (err) {
-                                console.error('Parsing error', err);
-                                return;
-                            }
-                            redisClient.set(showName,JSON.stringify(data), (err, reply) => {
-                                if(!err) {
-                                    if(reply) {
-                                        console.log("Redis updated with: " + showName);
-                                    } else {
-                                        console.log("Failed to set key");
-                                    }
-                                } else {
-                                    console.log(err);
-                                }
-                            });
-                            //Set data expiry time to an hours
-                            redisClient.expire(showName, 3600);
-                            res.json(data);
-                        });
-                }).catch((err) => {
-                    if(err) {
-                        console.log("Unable to reach url");
-                        res.json(err);
-                    }
-                });
             }
         }
     });
-
 
 });
 
@@ -247,10 +182,10 @@ app.get('/api/home', (req, res) => {
         }
     });
 
-    
-    
-    
+});
 
+app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));

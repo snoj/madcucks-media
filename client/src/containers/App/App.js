@@ -14,7 +14,7 @@ import './Author.css'
 
 const Author = () => (
   <div className="author-container">
-    <a href="https://github.com/ArmaanButt/madcucks-media/">
+    <a href="https://github.com/ArmaanButt/">
       Made with <FaHeart/> by Armaan Butt
     </a>
     <div>

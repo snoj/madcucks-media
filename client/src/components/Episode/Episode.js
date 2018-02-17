@@ -60,7 +60,9 @@ class Episode extends Component {
                                 <h1>{this.props.podcast.episodes[guid].title}</h1>
                                 <h2>{new Date(this.props.podcast.episodes[guid].published).toDateString()}</h2>
                                 <br/>
-                                <div className="episode-description" dangerouslySetInnerHTML={this.setDescriptionMarkUp(this.props.podcast.episodes[guid].description)}></div>
+                                <div className="episode-description">
+                                    <p dangerouslySetInnerHTML={this.setDescriptionMarkUp(this.props.podcast.episodes[guid].description)}></p>
+                                </div>
                             </div>
                             {this.props.podcast.episodes && <MoreList isHome={false} guid={guid}/>}
                         </React.Fragment>

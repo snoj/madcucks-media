@@ -16,6 +16,7 @@ export default class NavBar extends Component {
                         <Link to="/" className="navbar-button">Listen</Link>
                         <a href="https://www.patreon.com/thedickshow/posts" className="navbar-button">Patreon</a>
                         <a href="https://thedickshow.bandcamp.com/releases" className="navbar-button">Album</a>
+                        <a href="https://github.com/ArmaanButt/madcucks-media/" className="navbar-button">GitHub</a>
                     </ul>
                 </div>
             </header>
