@@ -17,8 +17,6 @@ const redisClient = redis.createClient({
     host: redisHost
 });
 
-logger.debug(redisHost);
-
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -30,6 +28,7 @@ redisClient.on('ready',function() {
 });
 
 redisClient.on('error',function() {
+    logger.debug(redisHost);
     console.log("Error in Redis");
 });
 
