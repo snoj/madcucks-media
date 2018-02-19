@@ -12,7 +12,7 @@
     "install-client": "cd client && yarn install",
     "preinstall": "yarn global add pm2",
     "postinstall": "yarn install-client && yarn build-client",
-    "start": "pm2 start process.yml"
+    "start": "pm2-runtime start process.yml"
   },
   "repository": {
     "type": "git",
