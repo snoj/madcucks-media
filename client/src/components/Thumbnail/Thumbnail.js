@@ -4,9 +4,9 @@ import './Thumbnail.css';
 
 export default class Thumbnail extends Component {
 
-    convertDate(publishedDate) {
+    convertDate(currentDate, publishedDate) {
         publishedDate = new Date(publishedDate);
-        let diff = (Date.now() - publishedDate)/(1000 * 60);
+        let diff = (currentDate - publishedDate)/(1000 * 60);
 
         if(diff < 60) {
             return Math.floor(diff).toString(10) + " minutes ago";
@@ -38,7 +38,7 @@ export default class Thumbnail extends Component {
                 </Link>
                 <div className="thumbnail-info-container">
                     <div className="thumbnail-span-heading">{this.props.title}</div>
-                    <div className="thumbnail-span-subheading">{this.props.duration} / {this.convertDate(this.props.date)}</div>
+                    <div className="thumbnail-span-subheading">{this.props.duration} / {this.convertDate(Date.now(), this.props.date)}</div>
                 </div>
             </div>
             

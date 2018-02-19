@@ -10,7 +10,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-client": "cd client && yarn build-css && yarn build",
     "install-client": "cd client && yarn install",
-    "postinstall": "yarn install-client"
+    "preinstall": "yarn global add pm2",
+    "postinstall": "yarn install-client && yarn build-client",
+    "start": "pm2 start process.yml"
   },
   "repository": {
     "type": "git",
