@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-client": "cd client && yarn build-css && yarn build",
     "install-client": "cd client && yarn install",
-    "preinstall": "yarn global add pm2",
+    "preinstall": "npm install pm2 -g",
     "postinstall": "yarn install-client && yarn build-client",
     "start": "pm2-runtime start process.yml"
   },
