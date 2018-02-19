@@ -13,9 +13,7 @@ var logger = log4js.getLogger();
 logger.level = 'ALL';
 
 const redisHost = process.env.REDIS_URL || process.env.REDIS_HOST || '127.0.0.1';
-const redisClient = redis.createClient({
-    host: redisHost
-});
+const redisClient = redis.createClient(redisHost);
 
 const app = express();
 const port = process.env.PORT || 5000;
