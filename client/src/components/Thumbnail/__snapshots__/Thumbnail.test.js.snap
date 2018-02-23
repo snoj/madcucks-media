@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Thumbnail renders with episode info 1`] = `
+<div
+  className="thumbnail-container"
+>
+  <Link
+    replace={false}
+    to="http://dick.show/episode-89/"
+  >
+    <img
+      alt=""
+    />
+  </Link>
+  <div
+    className="thumbnail-info-container"
+  >
+    <div
+      className="thumbnail-span-heading"
+    >
+      Episode 89 - Dick on Getting Caught
+    </div>
+    <div
+      className="thumbnail-span-subheading"
+    >
+      02:18:03
+       / 
+      NaN years ago
+    </div>
+  </div>
+</div>
+`;
