@@ -12,7 +12,7 @@ const log4js = require('log4js');
 var logger = log4js.getLogger();
 logger.level = 'ALL';
 
-const redisHost = process.env.REDIS_URL || process.env.REDIS_HOST || 'redis://localhost';
+const redisHost = process.env.REDIS_HOST || 'redis://localhost';
 const redisClient = redis.createClient(redisHost);
 
 const app = express();
