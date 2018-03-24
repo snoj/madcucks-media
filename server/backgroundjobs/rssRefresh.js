@@ -10,7 +10,7 @@ var logger = log4js.getLogger();
 logger.level = 'ALL';
 
 const redis = require('redis');
-const redisClient = redis.createClient(process.env.REDIS_HOST || 'redis://localhost');
+const redisClient = redis.createClient(process.env.REDIS_HOST || '127.0.0.1');
 Promise.promisifyAll(redis.RedisClient.prototype);
 Promise.promisifyAll(redis.Multi.prototype);
 
@@ -38,10 +38,12 @@ const refreshPodcastFeed = (showName) => {
             let tempEpisodeList = {};
 
             data.episodes.map((episode) => {
-                //Santize description. Didn't want to get rid of html and embedded elements entirely.
-                episode.description = sanitizer.sanitize(episode.description);
-                //Using GUID as hash to easily pull up episode information.
-                tempEpisodeList[encodeURIComponent(episode.guid)] = episode;
+                if(episode.enclosure && episode.enclosure.url) {
+                    //Santize description. Didn't want to get rid of html and embedded elements entirely.
+                    episode.description = sanitizer.sanitize(episode.description);
+                    //Using GUID as hash to easily pull up episode information.
+                    tempEpisodeList[encodeURIComponent(episode.guid)] = episode;
+                }
             });
 
             data.episodes = tempEpisodeList;
