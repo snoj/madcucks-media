@@ -10,7 +10,7 @@ var logger = log4js.getLogger();
 logger.level = 'ALL';
 
 const redis = require('redis');
-const redisClient = redis.createClient(process.env.REDIS_URL || process.env.REDIS_HOST || 'redis://localhost');
+const redisClient = redis.createClient(process.env.REDIS_HOST || 'redis://localhost');
 Promise.promisifyAll(redis.RedisClient.prototype);
 Promise.promisifyAll(redis.Multi.prototype);
 
