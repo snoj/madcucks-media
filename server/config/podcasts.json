@@ -1,11 +1,9 @@
 {
   "thedickshow": "http://thedickshow.libsyn.com/thedickshow",
   "thatlarryshow": "http://thatlarryshow.com/feed/podcast/",
-  "lawsplaining":
-    "http://feeds.soundcloud.com/users/soundcloud:users:187351634/sounds.rss",
+  "lawsplaining": "http://feeds.soundcloud.com/users/soundcloud:users:187351634/sounds.rss",
   "hwidg": "http://hereswhatidontget.com/podcast?format=rss",
-  "realnerdhours":
-    "http://feeds.soundcloud.com/users/soundcloud:users:280249740/sounds.rss",
+  "realnerdhours": "http://feeds.soundcloud.com/users/soundcloud:users:280249740/sounds.rss",
   "biggestproblem": "http://biggest.thedickshow.com/feed/podcast",
-  "sciencefriction": "http://sciencefriction.fun/rss"
+  "asteriospodcasts": "https://www.asteriospodcasts.com/feed.xml"
 }
